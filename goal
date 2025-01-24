@@ -1,0 +1,79 @@
+garage documents    https://garage.readthedocs.io/en/latest/user/implement_env.html
+    adding a new environment
+        openai gym interface??很多地方反复出现，需要了解一下
+        garage uses akro to describe input and output spaces, which are an extension of gym.Spaces API.
+        add an environment wrapper
+        implement a new environment
+            python scripts/sim_env.py garage.envs.point_env --mode random。。看看效果
+            python examples/tf/trpo_point.py。。之后安装garage，简单跑一下
+    implement a new algorithm
+        algorithm API   
+            The interface requires a single method, train(trainer), which takes a garage.experiment.Trainer. The interface is defined in garage.np.algos.RLAlgorithm, but inheriting from this class isn’t necessary.??
+            snapshotting??
+            basic setup??
+                trainer.step_epochs()??
+                each time the epoch is stepped, various "services" update. For example, logs are synchronized, snapshotting may occur, the plotter will update, etc.
+        gathering samples
+            .. to collect samples from the environment, we need to construct a sampler and set it a field in our algorithm. Then we can call trainer.obtain_samples() to get samples.
+            sampler = LocalSampler(agents=policy, envs=env, max_episode_length=200)
+            algo = SimpleVPG(env.spec, policy, sampler)
+
+        training the policy with samples
+            ..we can add a little logging to the train() method.
+            As PointEnv currently not supports visualization, If you want to visualize the policy when training, you can solve an Gym environment, for example LunarLanderContinuous-v2, and set plot to True in trainer.train(): ..??
+        numpy..??implement CEM with NumPy
+
+    change how your algorithm samples(implement a custom worker)??
+        worker interface and defaultworker??    
+            rollout() method of defaultworker, the most important method of worker.??
+                    def rollout(self):
+                """Sample a single episode of the agent in the environment.
+
+                Returns:
+                    EpisodeBatch: The collected episode.??
+
+                """
+                self.start_episode()
+                while not self.step_episode():
+                    pass
+                return self.collect_episode()
+
+        custom worker for rl2??
+            To use the custom worker in a launcher, just set the worker_class of the trainer, for example:??
+
+    sampling
+        Trainer gets episodes through Sampling to train the policy. In Garage, Trainer uses Sampler to perform sampling. Sampler manages Workers and assign specific tasks to them, which is doing rollouts with agents and environments. You can also implement your own sampler and worker. The followings introduce the existing samplers and workers in Garage.
+        sampler
+            LocalSampler
+            RaySampler
+
+        worker
+            In paralleling samplers, each worker will typically run in one exclusive CPU. For most algorithms, Garage provides two kinds of workers, DefaultWorker and VecWorker. A few algorithms (RL2 and PEARL) use custom workers specific to that algorithm.??
+            vecworker??就是cpu版本？
+        ...
+    
+    experiment..??
+
+openai spinning up  https://spinningup.openai.com/en/latest/user/introduction.html  ！！这个可能是寒假最重要的阅读材料
+    ..教程里提到的deep learning http://ufldl.stanford.edu/tutorial/
+    part 1
+       ..把之前的笔记搬过来 
+    spinning up as a deep RL researcher
+        ...If you’re an aspiring deep RL researcher, you’ve probably heard all kinds of things about deep RL by this point. You know that it’s hard and it doesn’t always work...之后看看
+        the right background
+            Build up a solid mathematical background. From probability and statistics, feel comfortable with random variables, Bayes’ theorem, chain rule of probability, expected values, standard deviations, and importance sampling. From multivariate calculus, understand gradients and (optionally, but it’ll help) Taylor series expansions. 。。
+            Build up a general knowledge of deep learning. You don’t need to know every single special trick and architecture, but the basics help. Know about standard architectures (MLP, vanilla RNN, LSTM (also see this blog), GRU, conv layers, resnets, attention mechanisms), common regularizers (weight decay, dropout), normalization (batch norm, layer norm, weight norm), and optimizers (SGD, momentum SGD, Adam, others). Know what the reparameterization trick is. 。。！！
+            Become familiar with at least one deep learning library. Tensorflow or PyTorch would be a good place to start. You don’t need to know how to do everything, but you should feel pretty confident in implementing a simple program to do supervised learning. 。。！！
+            Get comfortable with the main concepts and terminology in RL. Know what states, actions, trajectories, policies, rewards, value functions, and action-value functions are. If you’re unfamiliar, Spinning Up ships with an introduction to this material; it’s also worth checking out the RL-Intro from the OpenAI Hackathon, or the exceptional and thorough overview by Lilian Weng. Optionally, if you’re the sort of person who enjoys mathematical theory, study up on the math of monotonic improvement theory (which forms the basis for advanced policy gradient algorithms), or classical RL algorithms (which despite being superseded by deep RL algorithms, contain valuable insights that sometimes drive new research). 。。！！
+        learn by doing
+            write your own implementation
+                You should implement as many of the core deep RL algorithms from scratch as you can, with the aim of writing the shortest correct implementation of each. 
+            Simplicity is critical. 
+                You should organize your efforts so that you implement the simplest algorithms first, and only gradually introduce complexity.
+            Which algorithms? 
+                You should probably start with vanilla policy gradient (also called REINFORCE), DQN, A2C (the synchronous version of A3C), PPO (the variant with the clipped objective), and DDPG, approximately in that order. The simplest versions of all of these can be written in just a few hundred lines of code (ballpark 250-300), and some of them even less (for example, a no-frills version of VPG can be written in about 80 lines). Write single-threaded code before you try writing parallelized versions of these algorithms. (Do try to parallelize at least one.)!!
+            focus on understanding ..??挺重要的，后续多思考下
+                ..so a good amount of your time should be spent on that reading.
+            What to look for in papers: When implementing an algorithm based on a paper, scour that paper, especially the ablation analyses and supplementary material (where available). The ablations will give you an intuition for what parameters or subroutines have the biggest impact on getting things to work, which will help you diagnose bugs. Supplementary material will often give information about specific details like network architecture and optimization hyperparameters, and you should try to align your implementation to these details to improve your chances of getting it working...!!
+            !!上次读到这
+
