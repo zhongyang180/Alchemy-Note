@@ -56,6 +56,7 @@ garage documents    https://garage.readthedocs.io/en/latest/user/implement_env.h
 
 openai spinning up  https://spinningup.openai.com/en/latest/user/introduction.html  ！！这个可能是寒假最重要的阅读材料
     ..教程里提到的deep learning http://ufldl.stanford.edu/tutorial/
+    code implementation https://github.com/rll/rllab
     part 1
        ..把之前的笔记搬过来 
     spinning up as a deep RL researcher
@@ -75,5 +76,32 @@ openai spinning up  https://spinningup.openai.com/en/latest/user/introduction.ht
             focus on understanding ..??挺重要的，后续多思考下
                 ..so a good amount of your time should be spent on that reading.
             What to look for in papers: When implementing an algorithm based on a paper, scour that paper, especially the ablation analyses and supplementary material (where available). The ablations will give you an intuition for what parameters or subroutines have the biggest impact on getting things to work, which will help you diagnose bugs. Supplementary material will often give information about specific details like network architecture and optimization hyperparameters, and you should try to align your implementation to these details to improve your chances of getting it working...!!
+                When implementing an algorithm based on a paper, scour that paper, especially the ablation analyses and supplementary material (where available). 
+                The ablations will give you an intuition for what parameters or subroutines have the biggest impact on getting things to work, which will help you diagnose bugs. 
+            But don’t overfit to peper details
+            Don’t overfit to existing implementations either.
+            iterate fast in simple environment??
+
+            measure everything
+                I personally like to look at the mean/std/min/max for cumulative rewards, episode lengths, and value function estimates, along with the losses for the objectives, and the details of any exploration parameters (like mean entropy for stochastic policy optimization, or current epsilon for epsilon-greedy as in DQN). Also, watch videos of your agent’s performance every now and then; this will give you some insights you wouldn’t get otherwise.
+            scale experiments when things work
+        developing a research project
+            Start by exploring the literature to become aware of topics in the field
+                check out spinning up's key papers list
+                    https://spinningup.openai.com/en/latest/spinningup/keypapers.html !!
+            approaches to idea-generation
+                1
+                2 focusing on unsolved benchmarks
+                3 create a new problem setting
+                avoid reinventing the wheel
+        doing regorous research in rl
+            In order to validate that your proposal is a meaningful contribution, you have to rigorously prove that it actually gets a performance benefit over the strongest possible baseline algorithm—whatever currently achieves SOTA (state of the art) on your test domains. 
+            If you’ve invented a new test domain, so there’s no previous SOTA, you still need to try out whatever the most reliable algorithm in the literature is that could plausibly do well in the new test domain, and then you have to beat that.
+            set up fair comparisons..
+
+
             !!上次读到这
 
+
+围绕deepseek r1复现做实验！！
+    
