@@ -1,0 +1,9 @@
+目前的主要参考  https://github.com/huggingface/trl/blob/main/docs/source/grpo_trainer.md
+    《《？？
+        online learning
+    ？？
+    The intuition behind GRPO objective is to maximize the advantage of the generated completions, while ensuring that the model remains close to the reference policy.
+    advantage？？
+    而且它为毛就是强化学习了
+
+    ！！把quick start里面的0.5B训练的给复现了
