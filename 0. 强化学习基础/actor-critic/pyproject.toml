@@ -1,0 +1,14 @@
+[project]
+name = "actor-critic"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "gym==0.25",
+    "matplotlib>=3.10.0",
+    "opencv-python>=4.11.0.86",
+    "pygame>=2.6.1",
+    "torch>=2.6.0",
+    "tqdm>=4.67.1",
+]

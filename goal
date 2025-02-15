@@ -1,3 +1,11 @@
+把actor-critic的代码可视化好，做成一键训练，一键部署的！！
+    同时研究原理和实现
+    把测试过程可视化出来，存成视频
+        把刚开始训练的模型表现的视频也保存下来
+    对比reinforce和actor-critic的表现
+
+https://github.com/Unakar/Logic-RL ！！把这个r1zero复现的代码研究一下
+
 garage documents    https://garage.readthedocs.io/en/latest/user/implement_env.html
     adding a new environment
         openai gym interface??很多地方反复出现，需要了解一下
